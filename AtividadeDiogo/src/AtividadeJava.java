@@ -1,4 +1,3 @@
-
 import java.awt.EventQueue;
 
 import javax.swing.JFrame;
@@ -10,7 +9,6 @@ import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 import java.awt.Color;
 import javax.swing.JLabel;
-import java.awt.Font;
 import javax.swing.ImageIcon;
 
 public class AtividadeJava extends JFrame {
@@ -112,44 +110,48 @@ public class AtividadeJava extends JFrame {
 
 	public void MenuEncaminhaAltura(ActionEvent actionEvent) {
 
-
 		String valorPeso;
-		String[] opcoes = new String[] { "M", "F" };
-		String[] nome = new String[10];
+        String[] opcoes = new String[] { "M", "F" };
+        String[] nome = new String[3];
 
-		float maiorAltura = 0;
-		int qtdMulheres = 0;
-		int[] sexo = new int[10];
+        double maiorAltura = 0.1;
+		double mediaAltura = 0;
 
-		float[] altura = new float[10];
+        int qtdMulheres = 0;
+        int[] sexo = new int[3];
 
-		for (int i = 0; i < 10; i++) {
-			nome[i] = JOptionPane.showInputDialog(null, "Digite o nome da " + (i + 1) + "ª pessoa: ", "Cadastro",
-					JOptionPane.QUESTION_MESSAGE);
+        double[] altura = new double[3];
 
-			do {
-				valorPeso = JOptionPane.showInputDialog(null, "Insira a altura da " + (i + 1) + "ª pessoa: ",
-						"Cadastro", JOptionPane.QUESTION_MESSAGE);
+        for (int i = 0; i < 3; i++) {
+            nome[i] = JOptionPane.showInputDialog(null, "Digite o nome da " + (i + 1) + "ª pessoa: ", "Cadastro",
+                    JOptionPane.QUESTION_MESSAGE);
 
-				try {
-					altura[i] = Float.parseFloat(valorPeso);
-					break;
-				} catch (NumberFormatException e) {
-					JOptionPane.showMessageDialog(null, "Valor inválido.");
-				}
-				if (altura[i] > maiorAltura)
-					maiorAltura = altura[i];
-			} while (true);
+            sexo[i] = JOptionPane.showOptionDialog(null, "Insira o sexo: " + (i + 1) + "ª pessoa: ", "Cadastro", JOptionPane.DEFAULT_OPTION,
+                    JOptionPane.QUESTION_MESSAGE, null, opcoes, opcoes[0]);
+                
+            if (sexo[i] == 1) qtdMulheres++;
 
-			sexo[i] = JOptionPane.showOptionDialog(null, "Insira o sexo: ", "Cadastro", JOptionPane.DEFAULT_OPTION,
-					JOptionPane.QUESTION_MESSAGE, null, opcoes, opcoes[0]);
-			if (sexo[i] == 1)
-				qtdMulheres++;
-		}
+            do {
+                valorPeso = JOptionPane.showInputDialog(null, "Insira a altura da " + (i + 1) + "ª pessoa: ",
+                        "Cadastro", JOptionPane.QUESTION_MESSAGE);
 
-		JOptionPane.showMessageDialog(null, "Maior altura do grupo: " + maiorAltura, "Resultado",
-				JOptionPane.QUESTION_MESSAGE);
+                try {
+                    altura[i] = Double.parseDouble(valorPeso);
 
+					mediaAltura += altura[i];
+
+                    if (altura[i] > maiorAltura) maiorAltura = altura[i];
+                    break;
+                } catch (NumberFormatException e) {
+                    JOptionPane.showMessageDialog(null, "Valor inválido.");
+                }
+            } while (true);
+
+        }
+
+		mediaAltura /= altura.length;
+
+        JOptionPane.showMessageDialog(null, "Maior altura do grupo: " + String.format("%.2f", maiorAltura) + "\nQuantidade de mulheres: " + qtdMulheres + "\nMédia de altura dos homens: " + String.format("%.2f", mediaAltura), "Resultado", JOptionPane.QUESTION_MESSAGE);
 	}
 
 	public void MenuEncaminhaMedia(ActionEvent actionEvent) {
@@ -179,7 +181,7 @@ public class AtividadeJava extends JFrame {
 	        }
 	        
 	        double mediaSalarial = somaSalario / numFuncionarios;
-	        JOptionPane.showMessageDialog(null,"A média salarial da empresa é: " + mediaSalarial);		
+	        JOptionPane.showMessageDialog(null,"A média salarial da empresa é: R$" + String.format("%.2f", mediaSalarial));		
 		
 	}
 	
@@ -272,7 +274,8 @@ public class AtividadeJava extends JFrame {
 	
 	public void MenuEncaminhaCavalo(ActionEvent actionEvent) {
 		
-double massa, altura, tempo, cavalos;
+		double massa, altura, tempo;
+		int cavalos;
         
         do {
             String massaString = JOptionPane.showInputDialog("Informe a massa em kg:");
@@ -304,7 +307,7 @@ double massa, altura, tempo, cavalos;
             }
         } while(true);
         
-        cavalos = (massa * altura / tempo) / 745.7;
+        cavalos = (int) Math.ceil((massa * altura / tempo) / 745.7);
         
         JOptionPane.showMessageDialog(null, "A quantidade de cavalos necessários é: " + cavalos);
 		
@@ -312,32 +315,32 @@ double massa, altura, tempo, cavalos;
 	
 	public void MenuEncaminhaTemp(ActionEvent actionEvent) {
 		
-		 double celsius, kelvin, reaumur, rankine, fahrenheit;
+		double celsius, kelvin, reaumur, rankine, fahrenheit;
 
-	        do {
-	            String celsiusString = JOptionPane.showInputDialog("Informe a temperatura em Celsius:");
-	            if (celsiusString.isEmpty()) {
-	                JOptionPane.showMessageDialog(null, "Insira um valor valido!");
-	            } else {
-	                try {
-	                    celsius = Double.parseDouble(celsiusString);
-	                    break;
-	                } catch (NumberFormatException e) {
-	                    JOptionPane.showMessageDialog(null, "Insira um valor valido!");
-	                }
-	            }
-	        } while(true);
+		do {
+			String celsiusString = JOptionPane.showInputDialog("Informe a temperatura em Celsius:");
+			if (celsiusString.isEmpty()) {
+				JOptionPane.showMessageDialog(null, "Insira um valor valido!");
+			} else {
+				try {
+					celsius = Double.parseDouble(celsiusString);
+					break;
+				} catch (NumberFormatException e) {
+					JOptionPane.showMessageDialog(null, "Insira um valor valido!");
+				}
+			}
+		} while(true);
 
-	        fahrenheit = celsius * 1.8 + 32;
-	        kelvin = celsius + 273.15;
-	        reaumur = celsius * 0.8;
-	        rankine = celsius * 1.8 + 32 + 459.67;
+		fahrenheit = celsius * 1.8 + 32;
+		kelvin = celsius + 273.15;
+		reaumur = celsius * 0.8;
+		rankine = celsius * 1.8 + 32 + 459.67;
 
-	        JOptionPane.showMessageDialog(null, 
-	          "Fahrenheit: " + Math.round(fahrenheit) + "°F\n" 
-	        + "Kelvin: "     + Math.round(kelvin) + " K\n"
-	        + "Réaumur: "    + Math.round(reaumur) + "°Re\n"
-	        + "Rankine: "    + Math.round(rankine) + "°Ra");
+		JOptionPane.showMessageDialog(null, 
+			"Fahrenheit: " + Math.round(fahrenheit) + "°F\n" 
+		+ "Kelvin: "     + Math.round(kelvin) + " K\n"
+		+ "Réaumur: "    + Math.round(reaumur) + "°Re\n"
+		+ "Rankine: "    + Math.round(rankine) + "°Ra");
 		
 	}
 	
